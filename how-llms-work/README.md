@@ -13,7 +13,7 @@ npm run studio
 npm run render
 ```
 
-The render is written to `out/llm-animation.mp4`. The script regenerates `captions.srt` and the narration WAV from the same cue times. The local narration uses Flite. To use another voice, replace `public/narration.wav` with a 250-second file aligned to those cues.
+The render is written to `out/llm-animation.mp4`. The script regenerates `captions.srt` and the narration WAV from the same cue times. The checked-in MP4 uses ElevenLabs George narration. The default local synthesis command uses Flite. To use another voice, replace `public/narration.wav` with a 250-second file aligned to those cues.
 
 ## Storyboard and visual conventions
 
