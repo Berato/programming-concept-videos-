@@ -13,6 +13,7 @@ from urllib.request import Request, urlopen
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--provider", choices=("flite", "elevenlabs"), default="flite")
 parser.add_argument("--duration", type=int, default=250)
+parser.add_argument("--delivery", type=Path, help="JSON array of ElevenLabs prompts, one per cue.")
 args = parser.parse_args()
 if args.provider == "elevenlabs":
     api_key = os.environ.get("ELEVENLABS_API_KEY")
@@ -23,6 +24,9 @@ if args.provider == "elevenlabs":
 
 scenes = json.loads(Path("storyboard.json").read_text())
 cues = [cue for scene in scenes for cue in scene["cues"]]
+delivery = json.loads(args.delivery.read_text()) if args.delivery else [line for _, line, _ in cues]
+if len(delivery) != len(cues):
+    parser.error("The delivery file must have one prompt per cue.")
 rate = 48000
 audio = bytearray(rate * args.duration * 2)
 subtitles = []
@@ -34,9 +38,12 @@ def timestamp(seconds):
     return f"00:{minutes:02}:{seconds:02},{milliseconds:03}"
 
 def elevenlabs_audio(line, index):
+    payload = {"text": line, "model_id": model_id}
+    if model_id == "eleven_v3":
+        payload["voice_settings"] = {"stability": 0.5}
     request = Request(
         f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format=mp3_44100_128",
-        data=json.dumps({"text": line, "model_id": model_id}).encode(),
+        data=json.dumps(payload).encode(),
         headers={"xi-api-key": api_key, "Content-Type": "application/json"},
         method="POST",
     )
@@ -55,7 +62,7 @@ with tempfile.TemporaryDirectory() as tmp:
     for index, (start, line, _) in enumerate(cues):
         cmd = ["ffmpeg", "-loglevel", "error"]
         if args.provider == "elevenlabs":
-            recording.write_bytes(elevenlabs_audio(line, index))
+            recording.write_bytes(elevenlabs_audio(delivery[index], index))
             cmd += ["-i", str(recording)]
         else:
             voice.write_text(line)
