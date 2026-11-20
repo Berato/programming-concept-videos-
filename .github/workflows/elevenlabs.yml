@@ -1,0 +1,37 @@
+name: Generate ElevenLabs narration
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: how-llms-work
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Generate cue-aligned narration
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: python3 prepare.py --provider elevenlabs
+      - name: Replace narration and verify the MP4
+        run: |
+          mkdir -p out
+          ffmpeg -v error -i how-llms-work.mp4 -i public/narration.wav -i captions.srt \
+            -map 0:v:0 -map 1:a:0 -map 2:0 -c:v copy -c:a aac -b:a 192k -c:s mov_text \
+            -metadata:s:a:0 language=eng -metadata:s:s:0 language=eng \
+            -disposition:s:0 0 -movflags +faststart out/how-llms-work.mp4
+          ffmpeg -v error -xerror -i out/how-llms-work.mp4 -map 0:v:0 -map 0:a:0 -f null -
+          cp captions.srt out/captions.srt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: how-llms-work-elevenlabs
+          path: how-llms-work/out/
+          if-no-files-found: error
