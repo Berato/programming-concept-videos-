@@ -1,0 +1,17 @@
+{
+  "name": "pbj-history",
+  "version": "1.0.0",
+  "description": "A 90-second animated history of the peanut butter and jelly sandwich",
+  "scripts": {
+    "studio": "remotion studio index.jsx",
+    "render": "remotion render index.jsx PBJ out/pbj-base.mp4 --concurrency=2"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/cli": "4.0.545",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.545",
+    "three": "0.187.0"
+  }
+}
