@@ -19,7 +19,7 @@ if args.provider == "elevenlabs":
     api_key = os.environ.get("ELEVENLABS_API_KEY")
     if not api_key:
         parser.error("Set ELEVENLABS_API_KEY in your environment.")
-    voice_id = quote(os.environ.get("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb"), safe="")
+    voice_id = os.environ.get("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")
     model_id = os.environ.get("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2")
 
 scenes = json.loads(Path("storyboard.json").read_text())
@@ -38,11 +38,16 @@ def timestamp(seconds):
     return f"00:{minutes:02}:{seconds:02},{milliseconds:03}"
 
 def elevenlabs_audio(line, index):
-    payload = {"text": line, "model_id": model_id}
-    if model_id == "eleven_v3":
-        payload["voice_settings"] = {"stability": 0.5}
+    if model_id == "eleven_v4":
+        route = "text-to-dialogue"
+        payload = {"inputs": [{"text": line, "voice_id": voice_id}], "model_id": model_id}
+    else:
+        route = f"text-to-speech/{quote(voice_id, safe='')}"
+        payload = {"text": line, "model_id": model_id}
+        if model_id == "eleven_v3":
+            payload["voice_settings"] = {"stability": 0.5}
     request = Request(
-        f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format=mp3_44100_128",
+        f"https://api.elevenlabs.io/v1/{route}?output_format=mp3_44100_128",
         data=json.dumps(payload).encode(),
         headers={"xi-api-key": api_key, "Content-Type": "application/json"},
         method="POST",

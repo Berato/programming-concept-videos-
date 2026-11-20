@@ -1,5 +1,14 @@
 name: Generate PB&J narration
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: ElevenLabs speech model
+        type: choice
+        options:
+          - eleven_v4
+          - eleven_v3
+        default: eleven_v4
 permissions:
   contents: read
 jobs:
@@ -17,7 +26,7 @@ jobs:
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_VOICE_ID: cgSgspJ2msm6clMCkdW9
-          ELEVENLABS_MODEL_ID: eleven_v3
+          ELEVENLABS_MODEL_ID: ${{ inputs.model }}
         run: python3 ../how-llms-work/prepare.py --provider elevenlabs --duration 90 --delivery delivery.json
       - uses: actions/upload-artifact@v4
         with:
