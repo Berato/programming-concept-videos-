@@ -27,7 +27,7 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_VOICE_ID: cgSgspJ2msm6clMCkdW9
           ELEVENLABS_MODEL_ID: ${{ inputs.model }}
-        run: python3 ../how-llms-work/prepare.py --provider elevenlabs --duration 90 --delivery delivery.json
+        run: python3 ../how-llms-work/prepare.py --provider elevenlabs --duration 103 --delivery delivery.json
       - uses: actions/upload-artifact@v4
         with:
           name: pbj-narration

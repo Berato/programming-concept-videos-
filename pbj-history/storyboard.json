@@ -1,8 +1,139 @@
 [
- {"at":0,"title":"THE HOOK","cues":[[0.4,"This sandwich used to be for RICH PEOPLE.","Sandwich museum reveal"],[4.3,"Yeah. THAT sandwich. The one your mom threw in a plastic bag.","Tea party to cafeteria tray"]]},
- {"at":10,"title":"THE WEIRD BEGINNING","cues":[[10.25,"Back in the late 1800s, peanut butter wasn’t even considered normal food. It was promoted as a health food!","Calendar, physician, and grinder"],[17.5,"And somehow, it became a delicacy for wealthy Americans. They were eating it with watercress, cheese, even PIMENTOS.","Victorian tea and ingredient labels"],[24.8,"Clearly, somebody needed to intervene.","WHY freeze-frame"]]},
- {"at":28,"title":"THE GENIUS COMBINATION","cues":[[28.35,"Enter Julia Davis Chandler.","Boston, 1901"],[31.15,"In 1901, she published the earliest known recipe combining peanut paste with jelly.","Recipe and collision"],[36.5,"Not grape jelly. Not strawberry. CURRANT or CRABAPPLE jelly.","Antique three-tier sandwich"],[42,"But she was onto something.","Modern PB&J reaction"]]},
- {"at":45,"title":"THE TECHNOLOGY THAT CHANGED EVERYTHING","cues":[[45.3,"Then the 1920s happened. Peanut butter got creamier, lasted longer, and became cheaper.","Factory line"],[51,"And somebody finally figured out how to sell bread PRE-SLICED.","Sliced bread lands"],[55.7,"Suddenly, you didn’t need a fancy tea room. You needed three ingredients and about thirty seconds.","Ingredient snap together"]]},
- {"at":63,"title":"THE SANDWICH GOES TO WAR","cues":[[63.1,"Then World War Two came along. Peanut butter and jelly were both included in American military rations.","Monochrome ration scene"],[68.65,"Cheap. Portable. Packed with energy. And when soldiers came home, the combination was already familiar.","Rations to lunchboxes"],[74.1,"Before long, PB&J was taking over American lunchboxes.","1950s lunchbox"]]},
- {"at":77,"title":"THE PAYOFF","cues":[[77.1,"So this ridiculously simple sandwich went from fancy tea parties… to wartime rations… to practically every American childhood.","Rapid chronological montage"],[82.7,"All because someone looked at peanut butter and thought…","Sandwich hero and jelly drop"],[86,"You know what this needs? Fruit goo.","Freeze and final title"]]}
+  {
+    "at": 0,
+    "title": "THE HOOK",
+    "cues": [
+      [
+        0.4,
+        "This sandwich used to be for RICH PEOPLE.",
+        "Sandwich museum reveal"
+      ],
+      [
+        4.3,
+        "Yeah. THAT sandwich. The one your mom threw in a plastic bag.",
+        "Tea party to cafeteria tray"
+      ]
+    ]
+  },
+  {
+    "at": 10,
+    "title": "THE WEIRD BEGINNING",
+    "cues": [
+      [
+        10.25,
+        "Back in the late 1800s, peanut butter wasn’t even considered normal food. It was promoted as a health food!",
+        "Calendar, physician, and grinder"
+      ],
+      [
+        17.5,
+        "And somehow, it became a delicacy for wealthy Americans. They were eating it with watercress, cheese, even PIMENTOS.",
+        "Victorian tea and ingredient labels"
+      ],
+      [
+        24.8,
+        "Clearly, somebody needed to intervene.",
+        "WHY freeze-frame"
+      ]
+    ]
+  },
+  {
+    "at": 28,
+    "title": "THE GENIUS COMBINATION",
+    "cues": [
+      [
+        28.35,
+        "Enter Julia Davis Chandler.",
+        "Boston, 1901"
+      ],
+      [
+        31.15,
+        "In 1901, she published the earliest known recipe combining peanut paste with jelly.",
+        "Recipe and collision"
+      ],
+      [
+        36.5,
+        "Not grape jelly. Not strawberry. CURRANT or CRABAPPLE jelly.",
+        "Antique three-tier sandwich"
+      ],
+      [
+        42,
+        "But she was onto something.",
+        "Modern PB&J reaction"
+      ]
+    ]
+  },
+  {
+    "at": 45,
+    "title": "THE TECHNOLOGY THAT CHANGED EVERYTHING",
+    "cues": [
+      [
+        45.3,
+        "Then the 1920s happened. Peanut butter got creamier, lasted longer, and became cheaper.",
+        "Factory line"
+      ],
+      [
+        51,
+        "And somebody finally figured out how to sell bread PRE-SLICED.",
+        "Sliced bread lands"
+      ],
+      [
+        55.7,
+        "Suddenly, you didn’t need a fancy tea room. You needed three ingredients and about thirty seconds.",
+        "Ingredient snap together"
+      ]
+    ]
+  },
+  {
+    "at": 63,
+    "title": "THE SANDWICH GOES TO WAR",
+    "cues": [
+      [
+        63.1,
+        "Then World War Two came along. Peanut butter and jelly were both included in American military rations.",
+        "Monochrome ration scene"
+      ],
+      [
+        68.65,
+        "Cheap. Portable. Packed with energy. And when soldiers came home, the combination was already familiar.",
+        "Rations to lunchboxes"
+      ],
+      [
+        74.1,
+        "Before long, PB&J was taking over American lunchboxes.",
+        "1950s lunchbox"
+      ]
+    ]
+  },
+  {
+    "at": 77,
+    "title": "THE PAYOFF",
+    "cues": [
+      [
+        77.1,
+        "So this ridiculously simple sandwich went from fancy tea parties… to wartime rations… to practically every American childhood.",
+        "Rapid chronological montage"
+      ],
+      [
+        82.7,
+        "All because someone looked at peanut butter and thought…",
+        "Sandwich hero and jelly drop"
+      ],
+      [
+        86,
+        "You know what this needs? Fruit goo.",
+        "Freeze and final title"
+      ]
+    ]
+  },
+  {
+    "at": 90,
+    "title": "SIGN-OFF",
+    "cues": [
+      [
+        90.15,
+        "I have ADHD and I make random videos about my special interests. If you like that sort a thing…like and comment and subscribe…maybe?",
+        "Creator sign-off over a scrapbook end card"
+      ]
+    ]
+  }
 ]
