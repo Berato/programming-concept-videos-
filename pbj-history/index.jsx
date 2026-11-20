@@ -20,9 +20,10 @@ const shots=[
   {at:63,art:9,kind:'left',tag:'WORLD WAR II',title:'AMERICAN\nRATIONS',mono:true},
   {at:68.65,art:9,kind:'right',tag:'READY TO PACK',title:'CHEAP.\nPORTABLE.',note:'Packed with energy.',mono:true},
   {at:73.2,art:10,kind:'left',tag:'AFTER THE WAR',title:'LUNCHBOX\nSTAPLE'},
-  {at:77,art:1,kind:'montage',tag:'FROM TEA PARTIES',title:'From tea parties'},
+  {at:77,art:1,kind:'timeline',tag:'FROM TEA PARTIES',title:'From tea parties'},
   {at:82.7,art:11,kind:'hero',tag:'THE FINISHING TOUCH',title:'FRUIT GOO.'},
   {at:87.5,art:0,kind:'end',tag:'THE ACCIDENTAL AMERICAN ICON',title:'PB&J'},
+  {at:90,art:0,kind:'outro'},
 ];
 const ease=(t,a,b)=>interpolate(t,[a,b],[0,1],{extrapolateLeft:'clamp',extrapolateRight:'clamp'});
 const file=i=>staticFile(`art/${String(i).padStart(2,'0')}.webp`);
@@ -58,20 +59,35 @@ function IngredientCutouts({local,collide=false}){
     return <Img key={item} src={staticFile(`art/${item}.webp`)} style={{opacity:slide*(1-leave),transform:`translate(${x}px,${y}px) rotate(${(i-1)*15}deg)`}}/>;
   })}</div>;
 }
-function Montage({local}){
-  const items=[[1,'TEA PARTIES'],[5,'1901 RECIPE'],[7,'SLICED BREAD'],[9,'WARTIME RATIONS'],[10,'SCHOOL LUNCH']];
-  const index=Math.min(items.length-1,Math.floor(local/1.13)), [art,title]=items[index];
-  return <div className="montage">
-    <Rays local={local}/>
-    <div className="montage-rail">{items.map(([item,name],i)=><div className={i===index?'tile on':'tile'} key={item}><Art index={item}/><span>{name}</span></div>)}</div>
-    <div className="montage-focus torn" key={art} style={{transform:`rotate(${index%2?2:-2}deg) scale(${1+local%1.13*.035})`}}><Art index={art}/></div>
-    <div className="montage-title">{title}</div>
-  </div>;
+const milestones=[[4,'LATE 1800s','Tea tables'],[5,'1901','First known recipe'],[7,'1928','Sliced bread'],[9,'WORLD WAR II','Military rations'],[10,'POSTWAR','School lunchboxes'],[0,'TODAY','An American icon']];
+function Timeline({local}){
+  return <section className="timeline">
+    <h1>THE PB&J<br/>TIMELINE</h1>
+    <div className="spine" style={{transform:'scaleY('+ease(local,0,3.65)+')'}}/>
+    {milestones.map(([art,date,label],i)=><div key={date} className={'milestone '+(i%2?'right':'left')} style={{top:227+i*196,opacity:ease(local,.15+i*.65,.55+i*.65)}}>
+      <div className="branch"/><div className="milestone-art torn"><Art index={art}/></div>
+      <strong>{date}</strong><span>{label}</span>
+    </div>)}
+  </section>;
 }
+function Outro({local}){
+  const cta=local>=5.8;
+  return <section className="outro">
+    <div className="outro-art"><Prop name="hero-sandwich" style={{transform:'rotate('+(-5+Math.sin(local*.55)*4)+'deg)'}}/></div>
+    <div className="outro-copy" key={cta?'cta':'intro'} style={{transform:'translateY('+(30*(1-ease(local,cta?5.8:0,cta?6.2:.4)))+'px)'}}>
+      {cta?<h1>LIKE<br/>COMMENT<br/>SUBSCRIBE<span style={{opacity:ease(local,10.2,11)}}>…maybe?</span></h1>:<>
+        <div className="eyebrow">I HAVE ADHD</div><h1>VIDEOS ABOUT MY<br/>SPECIAL INTERESTS</h1>
+      </>}
+    </div>
+  </section>;
+}
+const backgroundArt=[1,4,10,4,1,3,6,5,5,0,8,8,7,7,10,2,6,6,10,4];
+
 function Shot({shot,local,global}){
   const pop=spring({frame:local*fps,fps,config:{damping:17,stiffness:145}});
   const isHero=['hero','end','freeze'].includes(shot.kind);
-  if(shot.kind==='montage') return <Montage local={local}/>;
+  if(shot.kind==='timeline') return <Timeline local={local}/>;
+  if(shot.kind==='outro') return <Outro local={local}/>;
   if(shot.kind==='assembly')return <>
     <Rays local={local}/>
     <div className="assembly-title">{shot.title}<small>{shot.tag}</small></div>
@@ -116,13 +132,14 @@ function Shot({shot,local,global}){
 }
 function Film(){
   const frame=useCurrentFrame(),t=frame/fps;
-  const shot=shots[shots.findLastIndex(c=>c.at<=t)],local=t-shot.at;
-  return <AbsoluteFill className="paper">
+  const index=shots.findLastIndex(c=>c.at<=t),shot=shots[index],local=t-shot.at;
+  return <AbsoluteFill className="paper portrait">
+    <div className="background-art"><Art index={backgroundArt[index]} local={local}/></div>
+    <div className="paper-wash"/>
     <Audio src={staticFile('narration.wav')} volume={.94}/>
     <Audio src={staticFile('effects.wav')} volume={.68}/>
     <Shot shot={shot} local={local} global={t}/>
     <div className="ink-grain"/>
-    <div className="rule" style={{width:`${100*t/90}%`}}/>
   </AbsoluteFill>;
 }
-registerRoot(()=> <Composition id="PBJ" component={Film} width={1920} height={1080} fps={fps} durationInFrames={90*fps}/>);
+registerRoot(()=> <Composition id="PBJ" component={Film} width={1080} height={1920} fps={fps} durationInFrames={103*fps}/>);
