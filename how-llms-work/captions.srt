@@ -1,0 +1,131 @@
+1
+00:00:00,000 --> 00:00:01,330
+The cat sat on the...
+
+2
+00:00:04,000 --> 00:00:09,665
+You might say mat, floor, or chair. Moon is possible, but it feels less likely.
+
+3
+00:00:11,000 --> 00:00:17,650
+Now imagine the story takes place in a rocket. The same ending can have different odds when the context changes.
+
+4
+00:00:19,000 --> 00:00:24,145
+A large language model learns patterns that help it predict what text might come next.
+
+5
+00:00:25,000 --> 00:00:30,495
+Before the network can do arithmetic on this sentence, it needs a way to turn text into numbers.
+
+6
+00:00:31,000 --> 00:00:38,441
+A tokenizer splits text into pieces called tokens. A piece can be a word, part of a word, punctuation, or include a space.
+
+7
+00:00:39,000 --> 00:00:45,459
+Each piece gets an ID from a vocabulary. The ID is just a lookup number, like an index in a table.
+
+8
+00:00:46,000 --> 00:00:52,075
+The ID selects a learned list of numbers. This list is a vector, and we call it an embedding.
+
+9
+00:00:55,000 --> 00:01:02,710
+What can a list of numbers tell us? Imagine using just three numbers as coordinates, so we can put each item somewhere in space.
+
+10
+00:01:04,000 --> 00:01:11,550
+Cat and dog often occur in similar contexts. The model can learn patterns from that, and related tokens can end up near one another.
+
+11
+00:01:13,000 --> 00:01:17,565
+Car occurs in different contexts, so here we place it farther away.
+
+12
+00:01:19,000 --> 00:01:26,220
+These are illustrative positions. Real embeddings have many more dimensions, and their coordinates are learned during training.
+
+13
+00:01:30,000 --> 00:01:33,930
+The animal didn't cross the street because it was tired. What does it refer to?
+
+14
+00:01:37,000 --> 00:01:43,220
+The starting vector for it cannot tell us. The model needs a way to pull information from earlier tokens.
+
+15
+00:01:45,000 --> 00:01:51,585
+Attention weighs how relevant earlier positions are for the current one. Then it mixes information from those positions.
+
+16
+00:01:53,000 --> 00:02:00,725
+The current token creates a query. Earlier positions supply keys for matching, and values supply the information that gets mixed.
+
+17
+00:02:02,000 --> 00:02:07,640
+That gives it a context-sensitive representation. Attention is one part of a Transformer.
+
+18
+00:02:10,000 --> 00:02:18,120
+One pass can pull in useful clues. A Transformer stacks layers so each layer can build on representations made by the previous one.
+
+19
+00:02:19,000 --> 00:02:26,205
+Attention mixes information across positions. A feed-forward network then transforms each position separately.
+
+20
+00:02:27,000 --> 00:02:33,725
+Residual connections carry information forward. Normalization helps keep the numerical scale manageable.
+
+21
+00:02:35,000 --> 00:02:43,210
+Learned numbers called weights determine how these operations transform the vectors. The work is spread across many numbers and operations.
+
+22
+00:02:45,000 --> 00:02:52,420
+During pretraining, take a piece of text. Let the model predict the next token, then compare its prediction with the token that actually occurred.
+
+23
+00:02:53,000 --> 00:03:00,431
+A loss measures the mismatch. Backpropagation computes gradients, which tell us how small changes to weights would affect that loss.
+
+24
+00:03:01,000 --> 00:03:07,360
+An optimizer uses those gradients to adjust weights. Repeat across enormous amounts of training text.
+
+25
+00:03:08,000 --> 00:03:14,469
+Later, instruction tuning can train on example responses. Preference-based training can favor responses people or other evaluators rate more highly.
+
+26
+00:03:15,000 --> 00:03:18,095
+During ordinary use, the learned weights stay fixed.
+
+27
+00:03:20,000 --> 00:03:28,415
+Back to our cat. The prompt becomes token IDs, then embeddings. The Transformer turns those vectors into representations informed by context.
+
+28
+00:03:29,000 --> 00:03:35,480
+The model produces a score for each possible next token. A softmax turns the scores into probabilities.
+
+29
+00:03:37,000 --> 00:03:43,440
+A selection rule picks a token. Sampling settings can make lower-probability choices more or less likely.
+
+30
+00:03:44,000 --> 00:03:49,540
+The chosen token joins the context. The process runs again, one token at a time.
+
+31
+00:03:50,000 --> 00:03:56,025
+An LLM is a neural network trained to transform context into predictions about what comes next.
+
+32
+00:03:57,000 --> 00:04:04,438
+Learning patterns across enormous amounts of data builds representations that can support language generation, problem solving, and many other tasks.
+
+33
+00:04:05,000 --> 00:04:07,335
+Likely text can still be wrong.
