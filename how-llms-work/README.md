@@ -30,3 +30,17 @@ The complete narration, onset times, and visual direction are in `storyboard.jso
 | Generation loop | Autoregressive decoding | Tokens can contain partial words, and implementations can reuse cached intermediate results. |
 
 The final distribution example is a simplified three-candidate illustration. The training labels describe common stages, whose use and order vary by model.
+
+## Replace narration with ElevenLabs
+
+Set `ELEVENLABS_API_KEY` securely in your environment. The default voice is George and the default model is Eleven Multilingual v2. Set `ELEVENLABS_VOICE_ID` or `ELEVENLABS_MODEL_ID` to choose another voice or model. A full generation sends all 33 narration lines to ElevenLabs and uses credits from the associated account.
+
+```sh
+python3 prepare.py --provider elevenlabs
+ffmpeg -i how-llms-work.mp4 -i public/narration.wav -i captions.srt \
+  -map 0:v -map 1:a -map 2:0 -c:v copy -c:a aac -b:a 192k -c:s mov_text \
+  -metadata:s:a:0 language=eng -metadata:s:s:0 language=eng \
+  -disposition:s:0 0 -movflags +faststart how-llms-work-elevenlabs.mp4
+```
+
+The script regenerates the captions using the new utterance lengths. FFmpeg copies the original video frames while replacing the audio and caption tracks.
