@@ -12,6 +12,7 @@ from urllib.request import Request, urlopen
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--provider", choices=("flite", "elevenlabs"), default="flite")
+parser.add_argument("--duration", type=int, default=250)
 args = parser.parse_args()
 if args.provider == "elevenlabs":
     api_key = os.environ.get("ELEVENLABS_API_KEY")
@@ -23,7 +24,7 @@ if args.provider == "elevenlabs":
 scenes = json.loads(Path("storyboard.json").read_text())
 cues = [cue for scene in scenes for cue in scene["cues"]]
 rate = 48000
-audio = bytearray(rate * 250 * 2)
+audio = bytearray(rate * args.duration * 2)
 subtitles = []
 
 def timestamp(seconds):
@@ -60,7 +61,7 @@ with tempfile.TemporaryDirectory() as tmp:
             voice.write_text(line)
             cmd += ["-f", "lavfi", "-i", f"flite=textfile={voice}:voice=slt"]
         raw = subprocess.check_output(cmd + ["-ar", str(rate), "-f", "s16le", "-"])
-        next_start = cues[index + 1][0] if index + 1 < len(cues) else 250
+        next_start = cues[index + 1][0] if index + 1 < len(cues) else args.duration
         window = next_start - start - .35
         if len(raw) / (rate * 2) > window:
             tempo = len(raw) / (rate * 2) / window * 1.03

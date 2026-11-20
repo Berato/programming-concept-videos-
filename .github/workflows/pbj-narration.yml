@@ -1,0 +1,26 @@
+name: Generate PB&J narration
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  narration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install FFmpeg if needed
+        run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+      - name: Generate narration
+        working-directory: pbj-history
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: python3 ../how-llms-work/prepare.py --provider elevenlabs --duration 90
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pbj-narration
+          path: |
+            pbj-history/public/narration.wav
+            pbj-history/captions.srt
+          if-no-files-found: error
