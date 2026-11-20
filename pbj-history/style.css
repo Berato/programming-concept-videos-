@@ -1,7 +1,7 @@
 :root{--wine:#761e32;--paper:#f2e5cb;--ink:#2b2019;--gold:#dfa134}
 *{box-sizing:border-box}
 .paper{overflow:hidden;color:var(--ink);font-family:Arial,sans-serif;background-color:var(--paper);background-image:linear-gradient(90deg,#7e633015 1px,transparent 1px),linear-gradient(#7e633015 1px,transparent 1px),radial-gradient(ellipse at 60% 30%,#fdf0d9,transparent 72%);background-size:36px 36px,36px 36px,100% 100%}
-.ink-grain{position:absolute;inset:0;pointer-events:none;opacity:.19;background-image:url('./public/grain.png');mix-blend-mode:multiply}
+.ink-grain{position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:url('./public/grain.png')}
 .art{display:block;width:100%;height:100%;object-fit:cover}
 .layout{position:absolute;inset:0}
 .shape{position:absolute;width:1110px;height:930px;left:-60px;top:60px;clip-path:polygon(0 9%,14% 3%,19% 8%,70% 0,90% 4%,100% 13%,95% 76%,99% 87%,66% 93%,28% 89%,0 100%)}
@@ -43,3 +43,13 @@ p{font-size:36px;font-weight:750;max-width:590px;line-height:1.2;margin:35px 0 0
 .cutouts img{position:absolute;left:70px;top:80px;width:210px;height:230px;object-fit:contain;filter:drop-shadow(7px 12px 1px #6132174d)}
 .cutouts.collide{left:350px;top:333px}
 .cutouts.collide img{width:245px;height:268px}
+
+.torn,.shape{clip-path:polygon(0.00% 2.00%,1.98% 1.42%,3.78% 1.77%,5.58% 1.62%,7.38% 1.24%,9.00% 1.00%,10.98% 1.68%,12.78% 2.04%,14.58% 2.36%,16.38% 3.10%,18.00% 3.00%,20.42% 2.14%,22.62% 2.41%,24.82% 1.90%,27.02% 0.94%,29.00% 1.00%,32.30% 0.98%,35.30% 1.71%,38.30% 1.19%,41.30% 1.54%,44.00% 2.00%,47.52% 2.07%,50.72% 1.38%,53.92% 1.18%,57.12% 0.89%,60.00% 0.30%,62.64% 1.10%,65.04% 1.90%,67.44% 2.36%,69.84% 2.32%,72.00% 3.00%,75.74% 2.96%,79.14% 2.84%,82.54% 2.13%,85.94% 2.54%,89.00% 2.00%,91.20% 2.28%,93.20% 3.00%,95.20% 3.31%,97.20% 3.62%,99.00% 4.00%,98.45% 6.64%,98.89% 9.04%,98.59% 11.44%,97.90% 13.84%,98.00% 16.00%,98.26% 18.42%,99.24% 20.62%,99.46% 22.82%,99.59% 25.02%,100.00% 27.00%,99.42% 30.96%,99.14% 34.56%,98.63% 38.16%,98.98% 41.76%,98.60% 45.00%,99.22% 47.86%,99.01% 50.46%,98.81% 53.06%,99.57% 55.66%,99.80% 58.00%,99.41% 61.30%,98.87% 64.30%,98.20% 67.30%,98.35% 70.30%,97.50% 73.00%,97.53% 76.52%,98.47% 79.72%,99.15% 82.92%,99.35% 86.12%,99.50% 89.00%,99.30% 90.98%,98.01% 92.78%,97.88% 94.58%,97.82% 96.38%,97.00% 98.00%,94.58% 98.47%,92.38% 98.96%,90.18% 98.81%,87.98% 98.34%,86.00% 99.00%,83.36% 98.26%,80.96% 98.18%,78.56% 97.77%,76.16% 97.30%,74.00% 97.00%,71.58% 97.35%,69.38% 97.62%,67.18% 98.33%,64.98% 98.12%,63.00% 99.00%,59.92% 98.42%,57.12% 99.12%,54.32% 97.92%,51.52% 97.84%,49.00% 98.00%,46.14% 98.28%,43.54% 98.37%,40.94% 99.15%,38.34% 99.00%,36.00% 99.80%,33.14% 99.07%,30.54% 98.09%,27.94% 98.41%,25.34% 97.30%,23.00% 97.00%,20.36% 97.17%,17.96% 98.27%,15.56% 97.79%,13.16% 98.81%,11.00% 99.00%,8.80% 99.29%,6.80% 99.01%,4.80% 98.74%,2.80% 97.74%,1.00% 98.00%,0.93% 95.36%,1.45% 92.96%,2.02% 90.56%,1.90% 88.16%,2.00% 86.00%,1.56% 83.80%,1.27% 81.80%,0.68% 79.80%,0.71% 77.80%,0.00% 76.00%,0.86% 73.58%,0.53% 71.38%,1.36% 69.18%,1.17% 66.98%,1.50% 65.00%,1.64% 61.48%,0.66% 58.28%,0.92% 55.08%,0.00% 51.88%,0.00% 49.00%,0.88% 46.80%,0.71% 44.80%,1.37% 42.80%,1.89% 40.80%,2.00% 39.00%,2.11% 36.14%,1.74% 33.54%,0.99% 30.94%,0.26% 28.34%,0.20% 26.00%,0.81% 23.36%,0.42% 20.96%,0.82% 18.56%,2.10% 16.16%,1.90% 14.00%,1.24% 11.36%,0.99% 8.96%,0.91% 6.56%,0.11% 4.16%);border:0}
+ .shape{opacity:.78}
+.artifact-stage{position:absolute;left:744px;top:129px;width:1090px;height:822px}
+.artifact-stage .prop{width:100%;height:746px;left:0;top:38px}
+.artifact-stage.museum .artifact-plate{background:radial-gradient(ellipse at 50% 29%,#a74055,#65172e 70%);border:12px solid #cf944b;border-radius:48% 47% 42% 43%}
+.artifact-plate{position:absolute;left:79px;top:610px;width:917px;height:162px;border-radius:50%;border:9px solid #dbb881;background:radial-gradient(ellipse at 50% 33%,#fff4d9,#c99967 86%);box-shadow:0 27px 28px #6833143a}
+.prop{display:block;position:absolute;width:100%;height:100%;object-fit:contain;filter:drop-shadow(11px 22px 19px #59221366)}
+.loose-prop{position:absolute;inset:112px auto auto 75px;width:1020px;height:833px}
+.loose-prop .prop{left:0;top:0}

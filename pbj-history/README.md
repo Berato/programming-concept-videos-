@@ -1,8 +1,8 @@
 # The Unlikely History of PB&J
 
-A 90-second vintage collage animation at 1920 × 1080 and 24 fps. Remotion animates the paper layouts, cutout ingredients, typography, and timeline. The illustrations are newly generated still artwork. Historical figures and scenes are dramatized illustrations.
+A 90-second vintage collage animation at 1920 × 1080 and 24 fps. Remotion animates the paper layouts, cutout ingredients, typography, and timeline. The original collage artwork includes independent cutouts for the sandwich, tray, magazine, and jelly spoon. The historical scenes are dramatized illustrations.
 
-The six scenes and complete narration are in `storyboard.json`. The ElevenLabs workflow generates the George voice track and English SRT from the storyboard. `sound.py` generates the parlor cue, record scratch, and transition effects.
+The six scenes and complete narration are in `storyboard.json`. The published cut uses Jessica with Eleven v4. The ElevenLabs workflow generates the English SRT from the storyboard. Use the model selector to generate with Eleven v4 through Text to Dialogue or Eleven v3 through Text to Speech. Each cue gets a performance prompt from `delivery.json`. The captions use the original script. `sound.py` generates the parlor cue, record scratch, and transition effects.
 
 ## Render from source
 
@@ -12,9 +12,10 @@ The six scenes and complete narration are in `storyboard.json`. The ElevenLabs w
 ```sh
 npm ci
 python3 sound.py
-npx remotion render index.jsx PBJ out/pbj-base.mp4 --concurrency=2
+npx remotion render index.jsx PBJ out/pbj-base.mp4 --concurrency=2 --crf=25
 ffmpeg -i out/pbj-base.mp4 -i captions.srt -map 0:v -map 0:a -map 1:0 \
-  -c:v copy -c:a copy -c:s mov_text -metadata:s:a:0 language=eng \
+  -c:v copy -c:a aac -b:a 192k -ar 48000 -c:s mov_text \
+  -af loudnorm=I=-16:TP=-1.5:LRA=8,apad -t 90 -metadata:s:a:0 language=eng \
   -metadata:s:s:0 language=eng -disposition:s:0 0 -movflags +faststart pbj-history.mp4
 ```
 

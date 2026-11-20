@@ -26,10 +26,14 @@ const shots=[
 ];
 const ease=(t,a,b)=>interpolate(t,[a,b],[0,1],{extrapolateLeft:'clamp',extrapolateRight:'clamp'});
 const file=i=>staticFile(`art/${String(i).padStart(2,'0')}.webp`);
+const propFile=name=>staticFile(`art/${name}.webp`);
 const crops={0:'50% 48%',2:'51% 55%',4:'54% 64%',6:'62% 64%',9:'49% 49%',10:'52% 53%'};
 
 function Art({index,local=0,style={}}){
   return <Img className="art" src={file(index)} style={{objectPosition:crops[index]??'center',transform:`scale(${1.025+Math.min(local,10)*.009})`,...style}}/>;
+}
+function Prop({name,style={}}){
+  return <Img className="prop" src={propFile(name)} style={style}/>;
 }
 function Rays({local,color='#e7a93a'}){
   return <div className="rays" style={{background:`repeating-conic-gradient(from ${local*2}deg, ${color} 0deg 5deg, transparent 5deg 16deg)`}}/>;
@@ -60,7 +64,7 @@ function Montage({local}){
   return <div className="montage">
     <Rays local={local}/>
     <div className="montage-rail">{items.map(([item,name],i)=><div className={i===index?'tile on':'tile'} key={item}><Art index={item}/><span>{name}</span></div>)}</div>
-    <div className="montage-focus" key={art} style={{transform:`rotate(${index%2?2:-2}deg) scale(${1+local%1.13*.035})`}}><Art index={art}/></div>
+    <div className="montage-focus torn" key={art} style={{transform:`rotate(${index%2?2:-2}deg) scale(${1+local%1.13*.035})`}}><Art index={art}/></div>
     <div className="montage-title">{title}</div>
   </div>;
 }
@@ -71,29 +75,35 @@ function Shot({shot,local,global}){
   if(shot.kind==='assembly')return <>
     <Rays local={local}/>
     <div className="assembly-title">{shot.title}<small>{shot.tag}</small></div>
-    <div className="assembly-card"><Art index={shot.art} local={local} style={{opacity:.36}}/><IngredientCutouts local={local}/><div style={{opacity:ease(local,1.7,2.25)}}><Sandwich local={Math.max(0,local-1.7)}/></div></div>
+    <div className="assembly-card torn"><Art index={shot.art} local={local} style={{opacity:.36}}/><IngredientCutouts local={local}/><div style={{opacity:ease(local,1.7,2.25)}}><Sandwich local={Math.max(0,local-1.7)}/></div></div>
   </>;
   if(isHero){
     const opening=shot.at===0, ending=shot.kind==='end', fruit=shot.art===11;
     const angle=(opening?-6:ending?-3:4)+Math.sin(local*.6)*3;
     return <>
       <Rays local={local} color={shot.kind==='freeze'?'#d99499':'#e1a23a'}/>
-      <div className={`hero-art ${shot.kind}`} style={{transform:`translateY(${55*(1-pop)}px) rotate(${angle}deg) scale(${.91+.09*pop})`}}>
+      {shot.kind==='freeze'?<div className="hero-art freeze torn" style={{transform:`rotate(${angle}deg)`}}>
         <Art index={shot.art} local={local}/>
-      </div>
+      </div>:<div className={`artifact-stage ${opening?'museum':''}`}>
+        <div className="artifact-plate"/>
+        <Prop name="hero-sandwich" style={{transform:`translateY(${(ending?-127:55)*(1-pop)}px) perspective(1100px) rotateY(${Math.sin(local*.66)*12}deg) rotate(${angle}deg) scale(${.85+pop*.15})`}}/>
+        {fruit&&<Prop name="jelly-spoon" style={{top:-121,left:391,width:630,height:572,transform:`translate(${130-100*ease(local,.1,2.6)}px,${-201+218*ease(local,.1,2.6)}px) rotate(${-29+32*ease(local,1,2.8)}deg)`}}/>}
+      </div>}
       <div className={`hero-copy ${shot.kind}`} style={{transform:`translateY(${(1-pop)*60}px)`}}>
         {(!fruit || global>=85.8)&&<><div className="eyebrow">{shot.tag}</div><h1>{shot.title}</h1></>}
         {opening&&global>1.9&&<p>{shot.note}</p>}
       </div>
-      {fruit&&<div className="jelly-drop" style={{transform:`translateY(${-132+ease(local,.45,2.85)*500}px) rotate(${local*8}deg)`,opacity:1-ease(local,2.7,3.06)}}/>}
+      {fruit&&<div className="jelly-drop" style={{transform:`translateY(${-132+ease(local,1.9,2.85)*620}px) rotate(${local*8}deg)`,opacity:1-ease(local,2.7,3.06)}}/>}
     </>;
   }
   const right=shot.kind==='right';
+  const prop=shot.art===2?'school-tray':shot.at===31.15?'recipe-magazine':null;
   return <div className={`layout ${right?'right':'left'}`}>
     <div className="shape" style={{background:shot.mono?'#b3a89a':shot.at>=45&&shot.at<63?'#e4aa3a':'#b84645'}}/>
-    <div className="photo" style={{transform:`translateX(${(right?1:-1)*120*(1-pop)}px) rotate(${(right?2:-2)+Math.sin(local*.48)*1.5}deg) scale(${.96+pop*.04})`}}>
+    {prop?<div className="loose-prop" style={{transform:`translateY(${(prop==='school-tray'?-290:105)*(1-pop)}px) rotate(${-7+7*pop}deg)`}}><Prop name={prop}/></div>:
+    <div className="photo torn" style={{transform:`translateX(${(right?1:-1)*120*(1-pop)}px) rotate(${(right?2:-2)+Math.sin(local*.48)*1.5}deg) scale(${.96+pop*.04})`}}>
       <Art index={shot.art} local={local} style={{filter:shot.mono?'grayscale(1) contrast(1.12)':undefined,...(shot.at===51?{objectPosition:'58% 38%'}:{})}}/>
-    </div>
+    </div>}
     {shot.at===31.15&&<IngredientCutouts local={local} collide/>}
     <div className="copy" style={{transform:`translateY(${44*(1-pop)}px)`}}>
       <div className="eyebrow">{shot.calendar&&local<1.15?Math.round(2026-128*ease(local,0,1.15)):shot.tag}</div>
@@ -101,7 +111,7 @@ function Shot({shot,local,global}){
       {shot.note&&<p style={{opacity:ease(local,.5,1)}}>{shot.note}</p>}
       {shot.chips&&<div className="chips">{shot.chips.map((item,i)=><span key={item} style={{opacity:ease(local,[3.1,4.35,5.45][i],[3.45,4.7,5.8][i])}}>{item}</span>)}</div>}
     </div>
-    <div className="tape" style={{transform:`rotate(${right?19:-17}deg)`}}/>
+    {!prop&&<div className="tape" style={{transform:`rotate(${right?19:-17}deg)`}}/>}
   </div>;
 }
 function Film(){
